@@ -9,3 +9,9 @@ dependencies = [
     "pandas>=2.3.2",
     "pywin32>=311",
 ]
+
+[dependency-groups]
+dev = [
+    "black>=25.9.0",
+    "ruff>=0.13.2",
+]
