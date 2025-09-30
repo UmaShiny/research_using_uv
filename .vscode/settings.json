@@ -1,0 +1,6 @@
+{
+    "markdown.preview.openMarkdownLinks": "inPreview",
+    "python.analysis.extraPaths": [
+        ".venv\\Lib\\site-packages"
+    ]
+}

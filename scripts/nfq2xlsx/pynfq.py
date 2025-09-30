@@ -10,6 +10,7 @@ from openpyxl.worksheet.worksheet import Worksheet as _ws
 import sys
 from datetime import datetime as dt
 import numpy as np
+import time
 
 # Use for important matters when displaying in the prompt.
 RED = "\033[31m"
@@ -18,13 +19,13 @@ END = "\033[0m"
 
 
 # define helper function
-def find_all_file_from_dir(src_dirpath: str, mode: str) -> list[str]:
+def find_all_file_from_dir(src_dirpath: str, mode: str, progress: str="0") -> list[str]:
     folder = _Path(src_dirpath)
     all_file: list[str] = []
     if mode == "final":
-        all_file = [f.name for f in folder.rglob("*") if f.is_file()]
+        all_file = [f.name for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress]
     if mode == "absol":
-        all_file = [str(f) for f in folder.rglob("*") if f.is_file()]
+        all_file = [str(f) for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress]
     return all_file
 
 
@@ -150,6 +151,9 @@ class pyNFQ:
     # Holds the number of tickers contained in the instance variable Tickers.
     Tickers_length: int | None = None
 
+    # The directory where this script file is located.
+    workspace: _Path | None = None
+
     # A variable used to fill in missing values on the financial results announcement date.
     # By using it as the difference from the first day of the fiscal month, it supplements the missing values.
     FR_FRA_tmstmp_diff: float | None = None
@@ -170,6 +174,7 @@ class pyNFQ:
 
         # Initialize Instance Variance
         self.script_file_dir = _os.path.dirname(_os.path.abspath(__file__))
+        self.workspace = _Path(__file__).parent.parent.parent  # workspace directory
         self.Tickers = (
             None
             if path_to_ticker_symbol_csv is None
@@ -197,9 +202,14 @@ class pyNFQ:
     def get_Tickers_length(self) -> Union[int, None]:
         return self.Tickers_length
 
+    def get_workspace(self) -> _Path:
+        if self.workspace is None:
+            raise ValueError("The value for self.workspace has not yet been assigned.")
+        return self.workspace
+
     def __helper_join_abspath(self, *args: str) -> str:
         dst = "\\".join(args)
-        return _os.path.join(self.get_script_file_dir(), dst)
+        return _os.path.join(self.get_workspace(), dst)
 
     # The following are method definitions.
 
@@ -249,16 +259,15 @@ class pyNFQ:
 
         # Python use Excel.Application through COM
         for i, nfq_xlsx_file in enumerate(files):
-            excel = _com.Dispatch("Excel.Application")
+            if _re.search(r"~$", nfq_xlsx_file) is not None:
+                continue  # Skip temporary files
+            excel = _com.DispatchEx("Excel.Application")
+            time.sleep(0.1)  # To avoid "Exception: Server busy"
             print_progress(current=i + 1, total=num_of_files, bar_length=30)
             try:
                 src_file_abspath = self.__helper_join_abspath(nfq_xlsx_file)
                 wb = excel.Workbooks.Open(src_file_abspath)
-                active_ws_title = wb.Sheets(2).Name
-                excel.DisplayAlerts = False
-                wb.Sheets(1).Delete()  # Since "検索条件シート" is no longer needed,
-                # removing it here will reduce processing overhead going forward.
-                excel.DisplayAlerts = True
+                active_ws_title = wb.ActiveSheet.Name
                 if nfq_xlsx_overwrite:
                     wb.Save()
                 else:
@@ -266,10 +275,12 @@ class pyNFQ:
                         dst_dirpath, extract_dst_file_name(active_ws_title, ".xlsx")
                     )
                     wb.SaveAs(dst_file_abspath)
-                wb.Close()
             except Exception as e:
-                print(f"Error Occured : {e} in {self.repair_nfqxlsx.__name__}")
+                print(f"\nError Occured : {e} in {self.repair_nfqxlsx.__name__}")
+                break
             finally:
+                wb.Close()
+                # wb.Release()
                 excel.Quit()
 
     # Function for handling standard *.xlsx files with _pd.DataFrame.
@@ -280,6 +291,7 @@ class pyNFQ:
         dst_dirpath: str,
         remove_column: list[int],
         remove_row: list[int],
+        progress: str = "0",
         missing_replace: int | float = 0,
         folder_exist_check: bool = False,
         validation: bool = False,
@@ -312,7 +324,7 @@ class pyNFQ:
         src_abspath = self.__helper_join_abspath(src_dirpath)
         dst_abspath = self.__helper_join_abspath(dst_dirpath)
 
-        all_xl_file_lst: list[str] = find_all_file_from_dir(src_abspath, mode="final")
+        all_xl_file_lst: list[str] = find_all_file_from_dir(src_abspath, mode="final", progress=progress)
         missing_only_xl_file_lst: list[str] = []
         mean_diff_lst: list[float] = []
 
@@ -321,6 +333,10 @@ class pyNFQ:
             ticker = extract_dst_file_name(
                 ws.title, suffix=""
             )  # it can extract only ticker
+            if not isinstance(ws, _ws):
+                raise TypeError(
+                    f"Type error: value must be {_ws.__name__} (type passed: {type(ws).__name__})"
+                )
             ws.freeze_panes = "A1"
             for delete_col in sorted(remove_column, reverse=True):
                 ws.delete_cols(delete_col)
@@ -351,7 +367,7 @@ class pyNFQ:
 
         def __inner_helper_get_xlsxrow(
             ws: _ws, row: int
-        ) -> tuple[Cell | MergedCell, ...]:
+        ) -> tuple:
             return ws[row][1 : ws.max_column + 1]
 
         def __inner_helper_str2timestamp_nfqver(ws: _ws, mode: str) -> list[float]:
@@ -494,7 +510,10 @@ class pyNFQ:
                         )  # -> 2nd phase
                         print(f"missing only : {xlsx_file_name}")
                         continue
-
+                if not isinstance(ws, _ws):
+                    raise TypeError(
+                        f"Type error: value must be {_ws.__name__} (type passed: {type(ws).__name__})"
+                    )
                 __inner_helper_xl2csv(ws, missing_only=missing_only)
                 print_progress(current_iter, total)
 

@@ -4,7 +4,16 @@ from Config import Path as cp
 from Config import Constant as cc
 
 
-def main(repair: bool = True, xlsx2csv: bool = True):
+def main():
+
+    print(f"repair: {cc.REPAIR}, xlsx2csv: {cc.XLSX2CSV}")
+    check_question: str | None = None
+    while check_question not in ("y", "n"):
+        check_question = input("Are you sure to continue? [y/n] >> ").lower()
+    if check_question == "n":
+        print("test is canceled")
+        return
+
     try:
         pyNFQ_obj = nfq(path_to_ticker_symbol_csv=cp.TICKER_SYMBOL_CSV_PATH)
 
@@ -15,6 +24,9 @@ def main(repair: bool = True, xlsx2csv: bool = True):
                 folder_exist_check=True,
             )
             print(f"test: {nfq.repair_nfqxlsx.__name__} ok")
+        else:
+            print("repair test is skipped")
+            # return
 
         if cc.XLSX2CSV:
             pyNFQ_obj.xlsx2csv(
@@ -22,11 +34,18 @@ def main(repair: bool = True, xlsx2csv: bool = True):
                 dst_dirpath=cp.DST_DIRPATH_DICT[nfq.xlsx2csv.__name__],
                 remove_column=cc.REMOVE_COLUMN_FOR_XLSX2CSV,
                 remove_row=cc.REMOVE_ROW_FOR_XLSX2CSV,
+                validation=False,
+                progress=cc.progress,
             )
             print(f"test: {nfq.xlsx2csv.__name__} ok")
+        else:
+            print("xlsx2csv test is skipped")
+            # return
+        
+        return 
 
     except Exception as e_outer:
-        print(f"UnExcpected Error: {e_outer}")
+        print(f"\nUnExcpected Error: {e_outer}")
     finally:
         delete_files_question: str | None = None
         while delete_files_question not in ("y", "n"):
@@ -34,7 +53,8 @@ def main(repair: bool = True, xlsx2csv: bool = True):
                 "Do you delete generated files? [y/n] >> "
             ).lower()
         if delete_files_question == "y":
-            test_filedel()
+            # test_filedel()
+            print("skip this process")
         print("test is done")
 
 
