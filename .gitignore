@@ -1,5 +1,5 @@
 data/Delisting/*
-data/funda_csv/*
 data/raw_data/*
 data/temp_xlsx/*
+data/main_csv/*
 !.gitkeep
