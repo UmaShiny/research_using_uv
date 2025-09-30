@@ -41,8 +41,8 @@ def main():
         else:
             print("xlsx2csv test is skipped")
             # return
-        
-        return 
+
+        return
 
     except Exception as e_outer:
         print(f"\nUnExcpected Error: {e_outer}")
@@ -53,7 +53,7 @@ def main():
                 "Do you delete generated files? [y/n] >> "
             ).lower()
         if delete_files_question == "y":
-            # test_filedel()
+            test_filedel()
             print("skip this process")
         print("test is done")
 

@@ -25,14 +25,14 @@ class Constant:
     REPAIR = False
     XLSX2CSV = True
 
-    REMOVE_COLUMN_FOR_XLSX2CSV = [] # 横
+    REMOVE_COLUMN_FOR_XLSX2CSV = []  # 横
     # if you run "Add_new_xlsx.py", please set [1,2,3,4,5,6,7,8] to this variable
     # if you run "convert_nfq2xlsx.py", please set [] to this variable
-    REMOVE_ROW_FOR_XLSX2CSV = [] # 縦
+    REMOVE_ROW_FOR_XLSX2CSV = []  # 縦
     # if you run "Add_new_xlsx.py", please set [1,2] to this variable
     # if you run "convert_nfq2xlsx.py", please set [] to this variable
 
-    ACTUAL_RANGE_ROW = {"start": 0, "end": 493} # 
+    ACTUAL_RANGE_ROW = {"start": 0, "end": 493}  #
     KESSANTANSIN_RANGE_ROW = {"start": 2, "end": 493}
     YUUKAHOUKOKU_RANGE_ROW = {"start": 493, "end": 984}
     KESSANTANSIN_DATE_ROW = 984

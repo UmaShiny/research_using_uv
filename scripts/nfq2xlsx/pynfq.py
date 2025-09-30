@@ -19,13 +19,19 @@ END = "\033[0m"
 
 
 # define helper function
-def find_all_file_from_dir(src_dirpath: str, mode: str, progress: str="0") -> list[str]:
+def find_all_file_from_dir(
+    src_dirpath: str, mode: str, progress: str = "0"
+) -> list[str]:
     folder = _Path(src_dirpath)
     all_file: list[str] = []
     if mode == "final":
-        all_file = [f.name for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress]
+        all_file = [
+            f.name for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress
+        ]
     if mode == "absol":
-        all_file = [str(f) for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress]
+        all_file = [
+            str(f) for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress
+        ]
     return all_file
 
 
@@ -324,7 +330,9 @@ class pyNFQ:
         src_abspath = self.__helper_join_abspath(src_dirpath)
         dst_abspath = self.__helper_join_abspath(dst_dirpath)
 
-        all_xl_file_lst: list[str] = find_all_file_from_dir(src_abspath, mode="final", progress=progress)
+        all_xl_file_lst: list[str] = find_all_file_from_dir(
+            src_abspath, mode="final", progress=progress
+        )
         missing_only_xl_file_lst: list[str] = []
         mean_diff_lst: list[float] = []
 
@@ -365,9 +373,7 @@ class pyNFQ:
                 return 0.0
             return float(np.mean(arr2[mask] - arr1[mask]))
 
-        def __inner_helper_get_xlsxrow(
-            ws: _ws, row: int
-        ) -> tuple:
+        def __inner_helper_get_xlsxrow(ws: _ws, row: int) -> tuple:
             return ws[row][1 : ws.max_column + 1]
 
         def __inner_helper_str2timestamp_nfqver(ws: _ws, mode: str) -> list[float]:
