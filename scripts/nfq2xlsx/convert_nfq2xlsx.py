@@ -2,6 +2,7 @@ from pynfq import pyNFQ as nfq
 from Delfiles import test_filedel
 from Config import Path as cp
 from Config import Constant as cc
+import numpy as np
 
 
 def main():
@@ -36,6 +37,7 @@ def main():
                 remove_row=cc.REMOVE_ROW_FOR_XLSX2CSV,
                 validation=False,
                 progress=cc.progress,
+                missing_replace=np.nan,
             )
             print(f"test: {nfq.xlsx2csv.__name__} ok")
         else:

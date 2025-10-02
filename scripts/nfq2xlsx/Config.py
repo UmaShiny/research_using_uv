@@ -12,7 +12,7 @@ class Path:
 
     DST_DIRPATH_DICT = {
         nfq.repair_nfqxlsx.__name__: ".\\data\\temp_xlsx\\temp_xlsx_date",
-        nfq.xlsx2csv.__name__: ".\\data\\funda_csv",
+        nfq.xlsx2csv.__name__: ".\\data\\main_csv\\funda_csv",
     }
 
     TEMP_XLSX_DATE_DIRPATH = ".\\data\\temp_xlsx\\temp_xlsx_date"
@@ -41,4 +41,4 @@ class Constant:
     SUBJECTNAME_COLUMN = 6
     SUBJECTCODE_COLUMN = 7
 
-    progress = "7561"
+    progress = "6291"

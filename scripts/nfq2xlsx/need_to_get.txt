@@ -1,0 +1,90 @@
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> uv run python
+Python 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+Ctrl click to launch VS Code Native REPL
+>>> from pathlib import Path
+>>> path_date = Path("data\\temp_xlsx\\temp_xlsx_date")
+>>> path_main = Path("data\\temp_xlsx\\temp_xlsx_main")
+>>> length_main = len([_ for _ in path_main.rglob("*")])
+>>> length_date = len([_ for _ in path_date.rglob("*")])
+>>> print(length_main, length_date)
+3648 3646
+>>> main_union = [f.name for f in path_main.rglob("*")]
+>>> date_union = [f.name for f in path_date.rglob("*")]
+>>> union_gap  = list(set(main_union) - set(date_union))
+>>> print(union_gap)
+['T9613.xlsx', 'T7451.xlsx']
+>>> quit()
+PS C:\Users\togen\FINAL_PAPER\research_using_uv>
+
+※ コマンドラインの説明
+2025/09/29 に実施した
+上で得られた2銘柄については、上場廃止されていたことが発覚したため、
+追加のデータ取得はせず、また学習データから外すこととする
+なお、学習データから削除を行った結果、下のようにデータの齟齬は解消された
+
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> uv run python
+Python 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+Ctrl click to launch VS Code Native REPL
+>>> from pathlib import Path
+>>> path_date = Path("data\\temp_xlsx\\temp_xlsx_date")
+>>> path_main = Path("data\\temp_xlsx\\temp_xlsx_main")
+>>> length_main = len([_ for _ in path_main.rglob("*")])
+>>> length_date = len([_ for _ in path_date.rglob("*")])
+>>> print(length_main, length_date)
+3646 3646
+>>> main_union = [f.name for f in path_main.rglob("*")]
+>>> date_union = [f.name for f in path_date.rglob("*")]
+>>> union_gap  = list(set(main_union) - set(date_union))
+>>> print(union_gap)
+[]
+>>> quit()
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> 
+
+
+
+データに日付データの添付が完了した。
+この時点でデータ数に齟齬があったが、その正体は一時的に作成・保存したsample_T1301.xlsxだった
+
+
+
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> uv run python
+Python 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+Ctrl click to launch VS Code Native REPL
+>>> from pathlib import Path
+>>> comp_path = Path("data\\temp_xlsx\\temp_xlsx_complete")
+>>> main_path = Path("data\\temp_xlsx\\temp_xlsx_main")     
+>>> comp_list = [f.name for f in comp_path.rglob("*")]
+>>> main_list = [f.name for f in main_path.rglob("*")] 
+>>> rest = list(set(main_list) - set(comp_list))
+>>> print(rest)
+[]
+>>> print(len(comp_list), len(main_list))
+3647 3646
+>>> rest = list(set(comp_list) - set(main_list)) 
+>>> print(rest)
+['sample_T1301.xlsx']
+>>> quit()
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> 
+
+
+最終的に、すべてのfunda_csvを取得することに成功した、と考えられる。
+今後、取得のやり直しをすることは十分に考えられるため、
+scripts\*のリファクタリングは継続する必要がある。
+
+
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> uv run python
+Python 3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+Ctrl click to launch VS Code Native REPL
+>>> from pathlib import Path
+>>> csv_path = Path("data\\funda_csv")
+>>> csv_files = [f for f in csv_path.rglob("*")]
+>>> len(csv_files)
+3646
+>>> quit()
+PS C:\Users\togen\FINAL_PAPER\research_using_uv> 
+
+3646個のcsvファイルの取得に成功した。

@@ -1,5 +1,2 @@
-data/Delisting/*
-data/raw_data/*
-data/temp_xlsx/*
-data/main_csv/*
+data/*
 !.gitkeep
