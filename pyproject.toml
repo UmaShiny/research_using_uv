@@ -12,6 +12,7 @@ dependencies = [
     "pyautogui>=0.9.54",
     "pypdf2>=3.0.1",
     "pywin32>=311",
+    "pywinauto>=0.6.9",
     "rapidfuzz>=3.14.1",
     "seaborn>=0.13.2",
     "yfinance>=0.2.66",
