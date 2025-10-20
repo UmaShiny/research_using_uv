@@ -26,17 +26,17 @@ def find_all_file_from_dir(
     all_file: list[str] = []
     if mode == "final":
         all_file = [
-            f.name for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress
+            f.name for f in folder.rglob("*") if f.is_file() and f.name[1:8] >= progress
         ]
     if mode == "absol":
         all_file = [
-            str(f) for f in folder.rglob("*") if f.is_file() and f.name[1:5] >= progress
+            str(f) for f in folder.rglob("*") if f.is_file() and f.name[1:8] >= progress
         ]
     return all_file
 
 
 def extract_dst_file_name(sheetName: str, suffix: str) -> str:
-    searched_Ticker = _re.search(pattern=r"T\d{3}(\d|A)", string=sheetName)
+    searched_Ticker = _re.search(pattern=r"N\d{7}", string=sheetName)
     if searched_Ticker is None:
         raise TypeError(
             f"Unexpected Excel worksheet name. What was requested was *[searched_Ticker].xlsx : sheetName = {sheetName}"
@@ -263,6 +263,8 @@ class pyNFQ:
         files = find_all_file_from_dir(src_dirpath, mode="absol")
         num_of_files = len(files)
 
+        processed_files = []
+
         # Python use Excel.Application through COM
         for i, nfq_xlsx_file in enumerate(files):
             if _re.search(r"~$", nfq_xlsx_file) is not None:
@@ -280,6 +282,10 @@ class pyNFQ:
                     dst_file_abspath = self.__helper_join_abspath(
                         dst_dirpath, extract_dst_file_name(active_ws_title, ".xlsx")
                     )
+                    if dst_file_abspath in processed_files:
+                        dst_file_abspath = dst_file_abspath.split(".xlsx")[0] + f"_{i}.xlsx" # serial number add
+                    else:
+                        processed_files.append(dst_file_abspath)
                     wb.SaveAs(dst_file_abspath)
             except Exception as e:
                 print(f"\nError Occured : {e} in {self.repair_nfqxlsx.__name__}")

@@ -4,14 +4,14 @@ import pyautogui
 import time
 import os
 
-LOAD_SCRIPT_POINT_ABS       = (658, 327)
-SELECT_FILE_POINT_REL       = (288, 238)
-AUTORUN_BUTTON_POINT_ABS    = (821, 742)
-CLOSE_LOG_POINT_REL         = (872, 564)
-CLSOE_SELECT_FILE_POINT_REL = (919, 21)
+LOAD_SCRIPT_POINT_ABS       = (633, 327) #
+SELECT_FILE_POINT_REL       = (288, 238) #
+AUTORUN_BUTTON_POINT_ABS    = (815, 1260) #
+CLOSE_LOG_POINT_REL         = (867, 567) # 
+CLSOE_SELECT_FILE_POINT_REL = (1238, 24) #
 DUR_TIME = 0.2
 
-folder_path = "D:\\一時保存先\\project_py\\dst_nfq_copy"
+folder_path = "data/nfq/nfq_dst"
 
 def load_script():
     abs_p_x, abs_p_y = LOAD_SCRIPT_POINT_ABS
@@ -78,19 +78,19 @@ def delete_preprofile():
 for f_iter in [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]:
     print(f"iteration: {f_iter}")
     load_script()
-    time.sleep(1)
+    time.sleep(0.2)
 
     select_file()
-    time.sleep(1)
+    time.sleep(0.2)
 
     press_autorun_button()
-    time.sleep(1)
+    time.sleep(0.2)
 
     download_to_local()
-    time.sleep(1)
+    time.sleep(0.2)
 
     close_log_window()
-    time.sleep(1)
+    time.sleep(0.2)
 
     delete_preprofile()
-    time.sleep(1)
+    time.sleep(0.2)

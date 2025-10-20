@@ -3,21 +3,21 @@ from pynfq import pyNFQ as nfq
 
 class Path:
 
-    TICKER_SYMBOL_CSV_PATH = ".\\scripts\\nfq2xlsx\\TickerOnly.csv"
+    TICKER_SYMBOL_CSV_PATH = "scripts/nfq2xlsx/TickerOnly.csv"
 
     SRC_DIRPATH_DICT = {
-        nfq.repair_nfqxlsx.__name__: ".\\data\\raw_data\\raw_data_date",  # must be remain!!
-        nfq.xlsx2csv.__name__: ".\\data\\temp_xlsx\\temp_xlsx_complete",
+        nfq.repair_nfqxlsx.__name__: "data/nfq/raw_nfqxlsx",  # must be remain!!
+        nfq.xlsx2csv.__name__: "data/nfq/concat_nfqxlsx",
     }
 
     DST_DIRPATH_DICT = {
-        nfq.repair_nfqxlsx.__name__: ".\\data\\temp_xlsx\\temp_xlsx_date",
-        nfq.xlsx2csv.__name__: ".\\data\\main_csv\\funda_csv",
+        nfq.repair_nfqxlsx.__name__: "data/nfq/fix_nfqxlsx",
+        nfq.xlsx2csv.__name__: "data/nfq/nfqcsv",
     }
 
-    TEMP_XLSX_DATE_DIRPATH = ".\\data\\temp_xlsx\\temp_xlsx_date"
-    TEMP_XLSX_MAIN_DIRPATH = ".\\data\\temp_xlsx\\temp_xlsx_main"
-    TEMP_XLSX_COMPLETE_DIRPATH = ".\\data\\temp_xlsx\\temp_xlsx_complete"
+    TEMP_XLSX_DATE_DIRPATH = "data/temp_xlsx/temp_xlsx_date"
+    TEMP_XLSX_MAIN_DIRPATH = "data/temp_xlsx/temp_xlsx_main"
+    TEMP_XLSX_COMPLETE_DIRPATH = "data/temp_xlsx/temp_xlsx_complete"
 
 
 class Constant:
@@ -41,4 +41,4 @@ class Constant:
     SUBJECTNAME_COLUMN = 6
     SUBJECTCODE_COLUMN = 7
 
-    progress = "6291"
+    progress = "0000000"

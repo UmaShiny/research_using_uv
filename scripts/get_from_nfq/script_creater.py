@@ -24,7 +24,7 @@ src_nfq_EnName:str = "EnName"
 
 SRC_PATTERN_TUPLE_INEDX, DST_REPLACE_TUPLE_INEDX = 0, 1
 for dst_nfq_nikkei, dst_nfq_ticker, dst_nfq_JpName, dst_nfq_EnName in zipped_dst_nfq_Ticker_JpName_EnName_List:
-    path_to_dst_nfq = f"data/nfq/nfq_dst/AutoRun_Allitem_{dst_nfq_ticker}.nfq"
+    path_to_dst_nfq = f"data/nfq/nfq_dst/AutoRun_{dst_nfq_ticker}.nfq"
     print("\r", f"Now creating {path_to_dst_nfq} ...", end="")
     src_to_dst_replace_tuple:tuple[tuple[str,str], ...] = ((src_nfq_Nikkei, dst_nfq_nikkei), # modify_order = 0
                                                            (src_nfq_JpName, dst_nfq_JpName), # modify_order = 1
@@ -40,3 +40,5 @@ for dst_nfq_nikkei, dst_nfq_ticker, dst_nfq_JpName, dst_nfq_EnName in zipped_dst
                 )
             dst_nfq_fp.write(dst_nfq_all_content)
 print("\nThe AutoRun script has been generated")
+
+# scripts\get_from_nfq\script_creater.py
