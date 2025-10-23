@@ -4,7 +4,7 @@ import win32api
 import pyautogui
 
 time.sleep(5)
-hwnd = win32gui.FindWindow(None, "NEEDS-FinancialQUEST")
+hwnd = win32gui.FindWindow(None, "開く")
 l, t, r, b = win32gui.GetWindowRect(hwnd)
 x,y = win32api.GetCursorPos()
 rx, ry = x-l,y-t

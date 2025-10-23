@@ -1,7 +1,7 @@
 import re
 import pandas as pd
 
-path_to_src_nfq = "data/nfq/nfq_src/AutoRun_sample.nfq" # このnfqファイルを参照して，必要な修正を実施後，dst_nfqに出力する
+path_to_src_nfq = "data/nfq/nfq_src/AutoRun_get_stock_volume_added_date_and_haitou.nfq" # このnfqファイルを参照して，必要な修正を実施後，dst_nfqに出力する
 # path_to_dst_nfq = ".\\dst_nfq\\AutoRun_Allitem.nfq" # src_nfqを修正した内容を蓄積して，最終的に全社分のデータを取得できる自動実行スクリプトを作成する
 path_to_datasrc_csv = "data/tickers/result/Tickers_with_Nikkei_copy.csv" # データを取得したい企業を一意に特定するための基本データが入ってるcsvファイル
 
@@ -24,7 +24,7 @@ src_nfq_EnName:str = "EnName"
 
 SRC_PATTERN_TUPLE_INEDX, DST_REPLACE_TUPLE_INEDX = 0, 1
 for dst_nfq_nikkei, dst_nfq_ticker, dst_nfq_JpName, dst_nfq_EnName in zipped_dst_nfq_Ticker_JpName_EnName_List:
-    path_to_dst_nfq = f"data/nfq/nfq_dst/AutoRun_{dst_nfq_ticker}.nfq"
+    path_to_dst_nfq = f"data/nfq/nfq_dst/AutoRun_{dst_nfq_nikkei}.nfq"
     print("\r", f"Now creating {path_to_dst_nfq} ...", end="")
     src_to_dst_replace_tuple:tuple[tuple[str,str], ...] = ((src_nfq_Nikkei, dst_nfq_nikkei), # modify_order = 0
                                                            (src_nfq_JpName, dst_nfq_JpName), # modify_order = 1

@@ -8,8 +8,9 @@ LOAD_SCRIPT_POINT_ABS       = (633, 327) #
 SELECT_FILE_POINT_REL       = (288, 238) #
 AUTORUN_BUTTON_POINT_ABS    = (815, 1260) #
 CLOSE_LOG_POINT_REL         = (867, 567) # 
-CLSOE_SELECT_FILE_POINT_REL = (1238, 24) #
+CLSOE_SELECT_FILE_POINT_REL = (952, 23) #
 DUR_TIME = 0.2
+TMP_TIME = 0.4
 
 folder_path = "data/nfq/nfq_dst"
 
@@ -46,9 +47,9 @@ def download_to_local():
                 w, h = r-l, b-t
                 if w > 350 or h > 200: continue
                 pyautogui.press("Enter")
-                return print("スクリプトが終了しました")
+                return print(" スクリプトが終了しました", end="")
             else: fail_num += 1
-    raise TimeoutError(f"異常終了しました: fail_num={fail_num}")
+    raise TimeoutError(f" 異常終了しました: fail_num={fail_num}")
 
 def close_log_window():
     rel_p_x, rel_p_y = CLOSE_LOG_POINT_REL
@@ -75,22 +76,23 @@ def delete_preprofile():
     pyautogui.moveTo(abs_p_x, abs_p_y, duration=DUR_TIME)
     pyautogui.click()
 
-for f_iter in [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]:
-    print(f"iteration: {f_iter}")
+total = len([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))])
+for i, f_iter in enumerate([f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]):
+    print("\r", f"iteration: {f_iter} : {i+1}/{total}", end="")
     load_script()
-    time.sleep(0.2)
+    time.sleep(TMP_TIME)
 
     select_file()
-    time.sleep(0.2)
+    time.sleep(TMP_TIME)
 
     press_autorun_button()
-    time.sleep(0.2)
+    time.sleep(TMP_TIME)
 
     download_to_local()
-    time.sleep(0.2)
+    time.sleep(TMP_TIME)
 
     close_log_window()
-    time.sleep(0.2)
+    time.sleep(TMP_TIME)
 
     delete_preprofile()
-    time.sleep(0.2)
+    time.sleep(TMP_TIME)
