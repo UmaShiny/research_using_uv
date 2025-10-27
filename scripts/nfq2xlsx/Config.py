@@ -6,18 +6,18 @@ class Path:
     TICKER_SYMBOL_CSV_PATH = "scripts/nfq2xlsx/TickerOnly.csv"
 
     SRC_DIRPATH_DICT = {
-        nfq.repair_nfqxlsx.__name__: "data/nfq/raw_nfqxlsx/raw_stcvol_nfqxlsx",  # must be remain!!
+        nfq.repair_nfqxlsx.__name__: "data/nfq/raw_nfqxlsx/raw_stcvol_nfqxlsx/20000101-20191231",  # must be remain!!
         nfq.xlsx2csv.__name__: "data/nfq/concat_nfqxlsx/concat_stcvol_nfqxlsx",
     }
 
     DST_DIRPATH_DICT = {
-        nfq.repair_nfqxlsx.__name__: "data/nfq/fix_nfqxlsx/fix_stcvol_nfqxlsx",
+        nfq.repair_nfqxlsx.__name__: "data/nfq/fix_nfqxlsx/fix_stcvol_nfqxlsx/20000101-20191231",
         nfq.xlsx2csv.__name__: "data/nfq/nfqcsv/stcvol_nfqcsv",
     }
 
-    TEMP_XLSX_DATE_DIRPATH = "data/temp_xlsx/temp_xlsx_date"
-    TEMP_XLSX_MAIN_DIRPATH = "data/temp_xlsx/temp_xlsx_main"
-    TEMP_XLSX_COMPLETE_DIRPATH = "data/temp_xlsx/temp_xlsx_complete"
+    # TEMP_XLSX_DATE_DIRPATH = "data/temp_xlsx/temp_xlsx_date"
+    # TEMP_XLSX_MAIN_DIRPATH = "data/temp_xlsx/temp_xlsx_main"
+    # TEMP_XLSX_COMPLETE_DIRPATH = "data/temp_xlsx/temp_xlsx_complete"
 
 
 class Constant:

@@ -26,10 +26,10 @@ class compact_xlsx:
             dfs = []
             
             each_doc_type_ranges = [
-                tanshin_tandoku_range_row := {"start": 2, "end": 487},
-                tanshin_renketsu_range_row := {"start": 488, "end": 973},
-                yuukahoukoku_tandoku_range_row := {"start": 974, "end": 1459},
-                yuukahoukoku_renketsu_range_row := {"start": 1460, "end": 1945},
+                tanshin_tandoku_range_row := {"start": 2, "end": 4},
+                tanshin_renketsu_range_row := {"start": 5, "end": 7},
+                yuukahoukoku_tandoku_range_row := {"start": 8, "end": 10},
+                yuukahoukoku_renketsu_range_row := {"start": 11, "end": 13},
             ]
 
             wb:Workbook = openpyxl.load_workbook(file_path, data_only=True)
@@ -38,7 +38,7 @@ class compact_xlsx:
             if not isinstance(ws, Worksheet):
                 raise TypeError("Unexpected type for worksheet")
             
-            date_range_row = {"start": 8, "end": ws.max_row}
+            date_range_row = {"start": 8, "end": ws.max_column}
 
             for doc_type in each_doc_type_ranges:
                 tmp = []
@@ -97,8 +97,8 @@ class compact_xlsx:
         return merged_xlsx
 
 
-for path in Path("data/nfq/fix_nfqxlsx").rglob("*.xlsx"):
+for path in Path("data/nfq/fix_nfqxlsx/fix_stcvol_nfqxlsx/20200101-20231231").rglob("*.xlsx"):
     print(f"processing: {path.name}")
     xlsx_dfs = compact_xlsx.devide_xlsx(path)
     result = compact_xlsx.merge_xlsx(xlsx_dfs)
-    result.to_excel(Path("data/nfq/concat_nfqxlsx") / path.name, sheet_name=path.stem)
+    result.to_excel(Path("data/nfq/concat_nfqxlsx/concat_stcvol_nfqxlsx/20200101-20231231") / path.name, sheet_name=path.stem)
