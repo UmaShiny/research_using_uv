@@ -97,8 +97,9 @@ class compact_xlsx:
         return merged_xlsx
 
 
-for path in Path("data/nfq/fix_nfqxlsx/fix_stcvol_nfqxlsx/20200101-20231231").rglob("*.xlsx"):
-    print(f"processing: {path.name}")
+for path in Path("data/nfq/fix_nfqxlsx/fix_stcvol_nfqxlsx/20000101-20191231").rglob("*.xlsx"):
+    print('\r', f"processing: {path.name}", end=' ')
     xlsx_dfs = compact_xlsx.devide_xlsx(path)
     result = compact_xlsx.merge_xlsx(xlsx_dfs)
-    result.to_excel(Path("data/nfq/concat_nfqxlsx/concat_stcvol_nfqxlsx/20200101-20231231") / path.name, sheet_name=path.stem)
+    result.to_excel(Path("data/nfq/concat_nfqxlsx/concat_stcvol_nfqxlsx/20000101-20191231") / path.name, sheet_name=path.stem)
+print("\nAll process completed!")

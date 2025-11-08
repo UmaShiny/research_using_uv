@@ -1,5 +1,5 @@
 from pynfq import pyNFQ as nfq
-from Delfiles import test_filedel
+from delfiles import test_filedel
 from Config import Path as cp
 from Config import Constant as cc
 import numpy as np
