@@ -90,7 +90,7 @@ def calculate_technical_indicators():
 
             nikkei_df['STC_fk'], nikkei_df['STC_fd'] = talib.STOCH(
                 high_prices, low_prices, close_prices,
-                fastk_period=14, slowk_period=3, slowk_matype=0,
+                fastk_period=5, slowk_period=3, slowk_matype=0,
                 slowd_period=3, slowd_matype=0
             )
 

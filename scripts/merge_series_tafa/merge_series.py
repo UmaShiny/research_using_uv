@@ -316,7 +316,6 @@ class tafa:
         def data_create_operation():
             pass
 
-
     class fundamental:
 
         def __init__(self, original_name='default', 
@@ -403,7 +402,7 @@ class tafa:
             if original_name != '':
                 original_name = original_name + '_'
             self.original_name = original_name
-            self.nfq_csv_dir = f'data/main/build/nfq/{nfq_csv_dir}'
+            self.nfq_csv_dir = f'data/main/build/nfq/nfqcsv/{nfq_csv_dir}'
             self.origin_fundamental_dir = f'data/main/origin/{original_name}fundamental'
             self.weekly_save_dir = f'data/main/master/product/weekly_{original_name}fundamental'
             self.monthly_save_dir = f'data/main/master/product/monthly_{original_name}fundamental'
@@ -473,7 +472,7 @@ class tafa:
                     ticker, jp = cf_table[cf_table['nikkei'] == nikkei_code][['ticker', 'jp']].values[0]
 
                     for _, row in funda_df.iterrows():
-                        date = row['決算発表日'].replace('-', '')
+                        date = row['決算発表日'].replace('-', '').replace('/', '')
                         if date in date_list:
                             # print(f'Filling data for nikkei {nikkei_code} on date {date}...', end=' ')
                             daily_funda_csv_path = Path(dst_path) / f'{date}.csv'
@@ -632,8 +631,8 @@ class tafa:
                 src_ta_fp_list = sorted([fp for fp in Path(src_ta_dir_path).rglob('.') if fp.suffix == '.csv'])
                 process_length = len(src_fa_fp_list)
                 for i, (ta_path, fa_path) in enumerate(zip(
+                    src_ta_fp_list,
                     src_fa_fp_list,
-                    src_ta_fp_list
                 )):
                     print("\r", f'Processing {ta_path.name} and {fa_path.name}...({i+1}/{process_length})', end=' ')
                     ta_df = pd.read_csv(ta_path)
@@ -663,9 +662,9 @@ class tafa:
                     if imputed_perfectly or there_is_no_data:
                         print(f'Imputed data length: \033[92m{impute_mask.sum()}\033[0m, valid_ta_df_length : {len(valid_ticker_codes)}, valid_fa_df_length : {len(valid_fa_df)}, ', end='   ')
 
-                        print(f'write on {src_fa_fp_list / fa_path.name}', end=' ')
+                        print(f'write on {fa_path}', end=' ')
                         fa_df.to_csv(
-                            src_fa_fp_list / fa_path.name,
+                            fa_path,
                             index=False
                         )
 
@@ -954,19 +953,19 @@ class tafa:
 # execution area
 
 if __name__ == '__main__':
-    """
+    contorller = None
     while contorller not in ['f', 't']:
         contorller = input('fundamental or technical? [f/t]: ')
         if contorller == 'f':
             funda = tafa.fundamental(
-                original_name='remodify',
-                nfq_csv_dir='nfqcsv_reduced_modify_quarterly_and_date',
-                etc_flag=False,
-                mkdir_flag=True
+                original_name='forbeta',
+                nfq_csv_dir='stcvol_delmissing_nfqcsv',
+                etc_flag=True,
+                mkdir_flag=True 
             )
         elif contorller == 't':
             tech = tafa.technical(
-                original_name='remodify',
+                original_name='remake',
                 mkdir_flag=True
             )
         else:
@@ -975,5 +974,3 @@ if __name__ == '__main__':
         funda.data_create_operation(timeframe='wm')
     elif contorller == 't':
         tech.data_create_operation(timeframe='wm')
-    """
-    tafa.technical.get_monthly_data()
