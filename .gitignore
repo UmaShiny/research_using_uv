@@ -6,3 +6,7 @@ notebook/dev/.keep/*
 notebook/dev/input/*
 notebook/dev/*.csv
 notebook/tmp/*.csv
+images/dev_LSTM_fault/*
+model/dev_LSTM_fault/*
+images/dev_LSTM/*
+model/dev_LSTM/*
