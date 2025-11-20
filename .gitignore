@@ -2,4 +2,11 @@ data/*
 !.gitkeep
 cpdf.exe
 ta_lib-0.6.8-cp313-cp313-win_amd64.whl
-notebook/*.csv
+notebook/dev/.keep/*
+notebook/dev/input/*
+notebook/dev/*.csv
+notebook/tmp/*.csv
+images/dev_LSTM_fault/*
+model/dev_LSTM_fault/*
+images/dev_LSTM/*
+model/dev_LSTM/*
